@@ -1,0 +1,4 @@
+{
+  "allowedFiles": ["*.ts", "*.tsx", "*.scss"],
+  "excludedFolders": ["node_modules","build"]
+}

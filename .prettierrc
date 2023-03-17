@@ -1,0 +1,19 @@
+{
+    "overrides": [
+      {
+        "files": "*.ps1",
+        "options": {
+          "parser": "powershell",
+          "singleQuote": true
+        }
+      },
+      {
+        "files": "*.json",
+        "options": {
+          "parser": "json",
+          "singleQuote": false
+        }
+      }
+    ]
+  }
+  
