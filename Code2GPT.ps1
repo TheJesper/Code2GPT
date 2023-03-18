@@ -16,13 +16,19 @@ function ShowMenu($WorkingFolderParameter) {
         Write-Host "📂  File Management Script"
         Write-Host "─────────────────────────────────────"
         Write-Host "Select an option:"
-        Write-Host "1. 📋 Copy folder structure to clipboard (excluding folders from config.json)"
-        Write-Host "2. 🔎 Browse and copy files (filtered by allowedFiles from config.json)"
+        Write-Host "1. 💬 Display ChatGPT Instruction"
+        Write-Host "2. 📋 Copy folder structure to clipboard (excluding folders from config.json)"
+        Write-Host "3. 🔎 Browse and copy files (filtered by allowedFiles from config.json)"
         Write-Host "X. 🚪 Quit"
         Write-Host "──────────────────────────────────────"
         $choice = Read-Host "Enter your choice"
         switch ($choice) {
             "1" {
+                DisplayChatGPTInstruction
+                Write-Host "Press Enter to continue. 🔄"
+                Read-Host
+            }
+            "2" {
                 $result = ListAndCopy -WorkingFolderParameter $WorkingFolderParameter -ExcludedFolders $config.excludedFolders -AllowedFiles $config.allowedFiles
                 Clear-Host
                 Write-Host "──────────────────────────────────────"
@@ -32,10 +38,13 @@ function ShowMenu($WorkingFolderParameter) {
                 $result -join "`r`n" | Set-Clipboard
                 Write-Host
                 Write-Host "📋 Copied folder structure to clipboard."
-                Start-Sleep -Seconds 4
+                Write-Host "Press Enter to continue. 🔄"
+                Read-Host
             }
-            "2" {
+            "3" {
                 BrowseAndCopy -AllowedFiles $config.allowedFiles -ExcludedFolders $config.excludedFolders -WorkingFolderParameter $WorkingFolderParameter -ShowNumbers $false
+                Write-Host "Press Enter to continue. 🔄"
+                Read-Host
             }
             "X" { $showMenu = $false }
             "x" { $showMenu = $false }
@@ -46,6 +55,21 @@ function ShowMenu($WorkingFolderParameter) {
         }
     }   
 }
+
+
+
+function DisplayChatGPTInstruction {
+    $config = Get-Content -Path "config.json" -Raw | ConvertFrom-Json
+    $instruction = $config.chatGPTInstruction
+    Write-Host "──────────────────────────────────────"
+    Write-Host "💬 ChatGPT Instruction:"
+    Write-Host "──────────────────────────────────────"
+    Write-Host $instruction
+    $instruction | Set-Clipboard
+    Write-Host
+    Write-Host "📋 Instruction copied to clipboard! 😊"
+}
+
 
 
 if (-not $WorkingFolder) {

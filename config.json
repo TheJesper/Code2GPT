@@ -1,4 +1,5 @@
 {
-  "allowedFiles": ["*.ts", "*.tsx", "*.scss"],
-  "excludedFolders": ["node_modules","build"]
+  "allowedFiles": ["*.ts", "*.tsx", "*.js", "*.jsx", "*.json", "*.scss", "*.css", "*.ps1"],
+  "excludedFolders": ["node_modules", "dist", "build", "coverage"],
+  "chatGPTInstruction": "Dear ChatGPT, I am about to share with you the folder structure and necessary files of a project I am working on. Please review the provided context and be prepared to act as a programmer to help me with the project. Once you have received the context, please respond with 'Understood' and a fun emoji to let me know you are ready. No need to respond to the folder structure, just wait for my questions. Thank you!"
 }

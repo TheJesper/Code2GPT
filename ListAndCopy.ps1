@@ -7,9 +7,6 @@ function ListAndCopy($WorkingFolderParameter, $ExcludedFolders, $AllowedFiles) {
     # Call GetListItems to get the list of items and return the result
     $output = GetListItems -path $WorkingFolderParameter -level 0 -ExcludedFolders $ExcludedFolders -AllowedFiles $AllowedFiles -WorkingFolderParameter $WorkingFolderParameter
 
-    Write-Host $output
-    Write-Host '----------🤖----------'
-    Read-Host
     return $output
 }
 
@@ -19,10 +16,6 @@ function GetListItems($path, $level, $ExcludedFolders, $AllowedFiles, $WorkingFo
     $output = New-Object System.Collections.ArrayList
     # Call the ListItems function with the required parameters
     ListItems -path $path -level $level -output $output -ExcludedFolders $ExcludedFolders -AllowedFiles $AllowedFiles -WorkingFolderParameter $WorkingFolderParameter
-    # Return the output directly
-    Write-Host $output
-    Write-Host '----------❌----------'
-    Read-Host
     return $output
 }
 

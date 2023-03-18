@@ -54,6 +54,7 @@ function BrowseAndCopy($AllowedFiles, $ExcludedFolders, $WorkingFolderParameter,
         Write-Host "📂  Browse and Copy Files"
         Write-Host "──────────────────────────────────────"
         Write-Host "Enter the number corresponding to the file you want to copy or type 'X' to quit."
+        Write-Host "Type 'A' to copy all filenames with relative paths followed by the code."
 
         DisplayFiles -fileList $files -showNumbers $ShowNumbers
         Write-Host "──────────────────────────────────────"
@@ -62,22 +63,33 @@ function BrowseAndCopy($AllowedFiles, $ExcludedFolders, $WorkingFolderParameter,
         if ($keyInput -eq 'X' -or $keyInput -eq 'x') {
             break
         }
+        elseif ($keyInput -eq 'A' -or $keyInput -eq 'a') {
+            $allFilesContent = ""
+            foreach ($file in $files) {
+                $relativePath = $file.DirectoryName -ireplace [regex]::Escape($WorkingFolderParameter), ''
+                $relativePath = $relativePath.TrimStart('\')
+                $content = Get-Content -Path $file.FullName -Raw
+                $allFilesContent += "$relativePath`r`n`r`n$content`r`n`r`n"
+            }
+            $allFilesContent | Set-Clipboard
+            Write-Host "📋 Copied all filenames with relative paths followed by the code to clipboard."
+            Start-Sleep -Seconds 2
+        }
         elseif ($keyInput -match '^\d+$' -and [int]$keyInput -ge 1 -and [int]$keyInput -le $files.Count) {
             $currentIndex = [int]$keyInput - 1
             $selectedFile = $files[$currentIndex]
             $relativePath = $selectedFile.DirectoryName -ireplace [regex]::Escape($WorkingFolderParameter), ''
-            $relativePath = $relativePath.TrimStart('\')
+            $relativePath = $relativePath.TrimStart('')
             $content = Get-Content -Path $selectedFile.FullName -Raw
-            $formattedContent = "$relativePath`r`n`r`n$content"
-
+            $formattedContent = "$relativePathrnrn$content"
             $formattedContent | Set-Clipboard
             Write-Host "📋 Copied relative path and content of $($selectedFile.Name) to clipboard."
             Start-Sleep -Seconds 2
         }
        
         else {
-            Write-Host "❌ Invalid keyInput. Please enter a number between 1 and $($files.Count) or 'X' to quit."
+            Write-Host "❌ Invalid keyInput. Please enter a number between 1 and $($files.Count), 'A' to copy all, or 'X' to quit."
             Start-Sleep -Seconds 2
         }
     }
-}
+    

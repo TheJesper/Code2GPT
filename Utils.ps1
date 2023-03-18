@@ -52,7 +52,6 @@ function ListItems($path, $level, $output, $ExcludedFolders, $AllowedFiles, $Wor
                     if ($item.Name -like $allowedFile) {
                         $row = "$(GetIndentation $level)┣ 📜$($item.Name)"
                         [void]$output.Add($row)
-                        Write-Host "Added row: $row"
                         break
                     }
                 }
