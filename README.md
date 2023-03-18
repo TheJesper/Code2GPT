@@ -1,4 +1,4 @@
-# CGPT Repo Tools
+# ChatGPT Repo Tools
 
 This PowerShell script helps users transfer their code project to ChatGPT by providing a nice tree structure view of their project files and allowing them to copy the content of specific files to the clipboard.
 
@@ -22,3 +22,14 @@ Enjoy the user-friendly GUI enhanced with emojis and line separators!
 ## ToDo
 
 1. Add option to copy all code in one go
+
+## Installation
+
+To install the required dependencies, follow these steps:
+
+1. Open PowerShell as Administrator.
+2. Run the following command to install Terminal.Gui:
+
+```powershell
+Install-Package -Name Terminal.Gui -Scope CurrentUser
+```
