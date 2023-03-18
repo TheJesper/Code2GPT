@@ -21,6 +21,7 @@ Enjoy the user-friendly GUI enhanced with emojis and line separators!
 
 ## ToDo
 
+1. Before every code output write this line: Behold, i will now paste a code file from my solution starting with the relative path and name, followed by the code. Please just answer "🤖 Understood" and read this in to your chat contect.
 1. Add option to copy all code in one go
 2. Make sure no file does the current folder
 3. Include header and enhance instruction for self to answer understood on the file structure

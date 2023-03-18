@@ -2,6 +2,9 @@ param (
     [string]$WorkingFolder = ""
 )
 
+# Remove trailing slash from WorkingFolderParameter
+$WorkingFolder = $WorkingFolder.TrimEnd('\')
+
 . .\Utils.ps1
 . .\ListAndCopy.ps1
 . .\BrowseAndCopy.ps1
@@ -25,7 +28,8 @@ function ShowMenu($WorkingFolderParameter) {
         switch ($choice) {
             "1" {
                 DisplayChatGPTInstruction
-                Write-Host "Press Enter to continue. 🔄"
+                Write-Host
+                Write-Host "📋 Instruction copied to clipboard! 😊 Press Enter to continue..."
                 Read-Host
             }
             "2" {
@@ -34,16 +38,19 @@ function ShowMenu($WorkingFolderParameter) {
                 Write-Host "──────────────────────────────────────"
                 Write-Host "📂 Folder Structure:"
                 Write-Host "──────────────────────────────────────"
-                $result -join "`r`n" | Write-Host
-                $result -join "`r`n" | Set-Clipboard
+                $text = "Behold, I will now paste a visualization of the folder structure for my coding project. If you understand it just answer '🤖 Understood', otherwise let me know what you need to know.`r`n`r`n"
+                $text += $result -join "`r`n"
+                
+                $text | Write-Host
+                $text | Set-Clipboard
                 Write-Host
-                Write-Host "📋 Copied folder structure to clipboard."
-                Write-Host "Press Enter to continue. 🔄"
+                Write-Host "📋 Copied folder structure to clipboard. Press Enter to continue..."
+                Write-Host ""
                 Read-Host
             }
             "3" {
                 BrowseAndCopy -AllowedFiles $config.allowedFiles -ExcludedFolders $config.excludedFolders -WorkingFolderParameter $WorkingFolderParameter -ShowNumbers $false
-                Write-Host "Press Enter to continue. 🔄"
+                Write-Host "Press Enter to continue..."
                 Read-Host
             }
             "X" { $showMenu = $false }
@@ -66,8 +73,6 @@ function DisplayChatGPTInstruction {
     Write-Host "──────────────────────────────────────"
     Write-Host $instruction
     $instruction | Set-Clipboard
-    Write-Host
-    Write-Host "📋 Instruction copied to clipboard! 😊"
 }
 
 

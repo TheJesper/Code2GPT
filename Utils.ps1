@@ -2,12 +2,17 @@
 
 # 📏 GetIndentation: Returns indentation spaces based on the provided level.
 function GetIndentation($level) {
+    if ([string]::IsNullOrEmpty($level)) {
+        return "0"
+    }
+    
     $indentation = ""
     for ($i = 0; $i -lt $level; $i++) {
         $indentation += "   "
     }
     return $indentation
 }
+
 
 # 📚 ListItems: Recursively lists files and folders, filtering by allowedFiles and excludedFolders.
 function ListItems($path, $level, $output, $ExcludedFolders, $AllowedFiles, $WorkingFolderParameter) {
