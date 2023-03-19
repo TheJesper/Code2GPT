@@ -26,6 +26,12 @@ To install the required dependencies, follow these steps:
 1. Open PowerShell as Administrator.
 2. Run the following command to install Terminal.Gui:
 
+## ToDo
+
+-- Include the behold text in the folder tree listing
+-- Make it possible to keep a config file int he project directory to select excluded allowed and so on
+-- Excluded folders should work with relative path:s
+
 ```powershell
 Install-Package -Name Terminal.Gui -Scope CurrentUser
 ```
