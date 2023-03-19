@@ -85,7 +85,7 @@ function BrowseAndCopy($AllowedFiles, $ExcludedFolders, $WorkingFolderParameter,
             }
             $allFilesContent | Set-Clipboard
             Write-Host "📋 Copied all filenames with relative paths followed by the code to clipboard."
-            Write-Host "Press any key to continue."
+            Write-Host "▶️ Press any key to continue."
             $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
         }
         elseif ($keyInput -match '^\d+$' -and [int]$keyInput -ge 1 -and [int]$keyInput -le $files.Count) {
@@ -94,17 +94,22 @@ function BrowseAndCopy($AllowedFiles, $ExcludedFolders, $WorkingFolderParameter,
             $relativePath = $selectedFile.DirectoryName -ireplace [regex]::Escape($WorkingFolderParameter), ''
             $relativePath = $relativePath.TrimStart('')
             $content = Get-Content -Path $selectedFile.FullName -Raw
-            $formattedContent = "$relativePathrnrn"
-            $formattedContent += $content -split "n" | ForEach-Object { "[{ 0 }] { 1 }" -f $currentIndex + 1, $_ } $formattedContent = $formattedContent -join "rn" Write-Host "I will now paste the code for one of my files, answer me with only the text Understood` and a robot emoji. 🤖"
-            $response = Read-Host
-            if ($response -eq 'Understood 🤖') {
+            
+            $config = Get-Content -Path "config.json" -Raw | ConvertFrom-Json
+            $formattedContent = "$($config.prepareForCodeMessage)`r`n"
+            $formattedContent += $relativePath + "`r`n"
+
+            if ($content) {
+                $formattedContent += $content
                 $formattedContent | Set-Clipboard
                 Write-Host "📋 Copied relative path and content of $($selectedFile.Name) to clipboard."
-                Start-Sleep -Seconds 2
+                Write-Host "▶️ Press any key to continue."
+                $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
             }
             else {
-                Write-Host "❌ Invalid response. Please enter 'Understood 🤖' to copy the file contents to clipboard."
-                Start-Sleep -Seconds 2
+                Write-Host "❌ Error: file content is empty."
+                Write-Host "▶️ Press any key to continue."
+                $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
             }
         }
     }

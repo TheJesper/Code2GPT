@@ -29,8 +29,9 @@ function ShowMenu($WorkingFolderParameter) {
             "1" {
                 DisplayChatGPTInstruction
                 Write-Host
-                Write-Host "📋 Instruction copied to clipboard! 😊 Press Enter to continue..."
-                Read-Host
+                Write-Host "📋 Instruction copied to clipboard! 😊"
+                Write-Host "▶️ Press any key to continue."
+                $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
             }
             "2" {
                 $result = ListAndCopy -WorkingFolderParameter $WorkingFolderParameter -ExcludedFolders $config.excludedFolders -AllowedFiles $config.allowedFiles
@@ -44,14 +45,15 @@ function ShowMenu($WorkingFolderParameter) {
                 $text | Write-Host
                 $text | Set-Clipboard
                 Write-Host
-                Write-Host "📋 Copied folder structure to clipboard. Press Enter to continue..."
-                Write-Host ""
+                Write-Host "📋 Copied folder structure to clipboard."
+                Write-Host "▶️Press any key to continue."
+                $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
                 Read-Host
             }
             "3" {
                 BrowseAndCopy -AllowedFiles $config.allowedFiles -ExcludedFolders $config.excludedFolders -WorkingFolderParameter $WorkingFolderParameter -ShowNumbers $false
-                Write-Host "Press Enter to continue..."
-                Read-Host
+                Write-Host "▶️Press any key to continue."
+                $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
             }
             "X" { $showMenu = $false }
             "x" { $showMenu = $false }
@@ -91,6 +93,7 @@ try {
 }
 catch {
     Write-Host "An error occurred: $_"
-    Write-Host "Press Enter to exit."
+    Write-Host "Press any key to exit."
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
     Read-Host
 }
