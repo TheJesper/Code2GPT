@@ -1,4 +1,6 @@
-# Make sure you've imported Utils.ps1
+
+# 🌳 NavigateAndCopy.ps1: Interactive PowerShell function to navigate and copy file paths.
+
 . .\Utils.ps1
 
 # BuildTree: Recursive function that generates a tree structure based on the given tree items and parent path.

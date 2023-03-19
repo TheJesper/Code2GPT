@@ -1,31 +1,23 @@
-on# ChatGPT Repo Tools
+# ChatGPT Repo Tools
 
-This PowerShell script helps users transfer their code project to ChatGPT by providing a nice tree structure view of their project files and allowing them to copy the content of specific files to the clipboard.
+This PowerShell script helps users transfer their code project to ChatGPT by providing a tree structure view of their project files and allowing them to copy the content of specific files to the clipboard.
 
 ## Features
 
 1. List and copy the folder structure to clipboard, respecting the allowed files and excluded folders defined in `config.json`.
-2. List the folder structure with numbers in front of each file, allowing users to select a file to copy its relative path, a blank line, and the content to the clipboard.
+2. Browse and copy specific files with their relative paths and content to the clipboard.
 
 ## Usage
 
 1. Configure the `config.json` file to include the desired file types in `allowedFiles` and folders to exclude in `excludedFolders`.
-2. Run the `Code2GPT.ps1` script and provide the path to the source folder when prompted.
-3. Select the desired option from the menu to list the folder structure or browse and copy specific files.
+2. Run the appropriate script (`Code2GPT.ps1`, `BrowseAndCopy.ps1`, or `NavigateAndCopy.ps1`) and provide the path to the source folder when prompted.
+3. Follow the on-screen instructions to list the folder structure, browse, or copy specific files.
 
 ## Exit
 
-Press 'X' to exit both menu option 2 and the complete application.
+Press 'X' to exit the browsing and copying scripts and the complete application.
 
 Enjoy the user-friendly GUI enhanced with emojis and line separators!
-
-## ToDo
-
-1. Before every code output write this line: Behold, i will now paste a code file from my solution starting with the relative path and name, followed by the code. Please just answer "🤖 Understood" and read this in to your chat contect.
-1. Add option to copy all code in one go
-2. Make sure no file does the current folder
-3. Include header and enhance instruction for self to answer understood on the file structure
-4. Make it possible to have 1 default config but also one config per project
 
 ## Installation
 

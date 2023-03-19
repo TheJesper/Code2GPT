@@ -2,5 +2,10 @@
   "allowedFiles": ["*.ts", "*.tsx", "*.js", "*.jsx", "*.json", "*.scss", "*.css", "*.ps1", "*.md"],
   "excludedFolders": ["node_modules", "dist", "build", "coverage"],
   "chatGPTInstruction": "Dear ChatGPT, I am about to share with you the folder structure and necessary files of a project I am working on. Please review the provided context and be prepared to act as a programmer to help me with the project. Once you have received the context, please respond with 'Understood' and a fun emoji to let me know you are ready. No need to respond to the folder structure, just wait for my questions. Thank you!",
-  "prepareForCodeMessage": "I will now paste the code for one of my files, answer me with only the text Understood and a robot emoji. 🤖"
+  "prepareForCodeMessage": "I will now paste the code for one of my files, answer me with only the text Understood and a robot emoji. 🤖",
+  "commands": {
+    "comment": "These are not implemented yet, just ideas",
+    "makeRevision": "This is Utils.ps1. Make a final revision of the code, insert a comment on top with emoji, file name a colon followed by and description, insert a pedagogical comment for each function, remove unnecessary comments. Format by removing unnecessary line breaks",
+    "splitFile": "Output the the complete code for me split in 2 answers. Write the first part from line zero in a code box and then wait for me to write continue until you give the next part."
+  }
 }

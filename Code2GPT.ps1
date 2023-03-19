@@ -1,3 +1,24 @@
+<#
+    File Management Script
+    ======================
+
+    This script is an interactive PowerShell script for file management tasks.
+    It provides the following options:
+
+    1. Display ChatGPT Instruction: Displays the ChatGPT instruction and copies it to the clipboard.
+    2. Copy folder structure to clipboard: Lists the folder structure (excluding folders specified in config.json) and copies it to the clipboard.
+    3. Browse and copy files: Allows browsing of files (filtered by allowedFiles from config.json) and copying their content and relative paths.
+    X. Quit: Exits the script.
+
+    Usage:
+    ------
+    Run the script and provide a working folder path when prompted, or pass it as a parameter when calling the script.
+
+    Example:
+    -------
+    .\Code2GPT.ps1 "C:\Full\Path\To\Project"
+#>
+
 param (
     [string]$WorkingFolder = ""
 )
