@@ -1,9 +1,7 @@
-# 📚 BrowseAndCopy.ps1: Interactive PowerShell function to display and copy file content and relative paths.
-
 .\Utils.ps1
 
 # BrowseAndCopy: Main function to interactively browse and copy file content and relative paths.
-function BrowseAndCopy($AllowedFiles, $ExcludedFolders, $WorkingFolderParameter, $ShowNumbers = $true) {
+function BrowseAndCopy($AllowedFiles, $ExcludedFolders, $WorkingFolderParameter, $GitIgnorePatterns, $ShowNumbers = $true) {
     # Get the list of files to be displayed
     $files = Get-ChildItem -Path $WorkingFolderParameter -Recurse -File |
     Where-Object {
@@ -18,6 +16,18 @@ function BrowseAndCopy($AllowedFiles, $ExcludedFolders, $WorkingFolderParameter,
         if ($includeFile) {
             foreach ($excludedFolder in $ExcludedFolders) {
                 if ($_.Directory -like "*\$excludedFolder\*") {
+                    $includeFile = $false
+                    break
+                }
+            }
+        }
+
+        # Check against gitignore patterns
+        if ($includeFile) {
+            foreach ($pattern in $GitIgnorePatterns) {
+                $regexPattern = [regex]::Escape($pattern).Replace("\*", ".*").Replace("\?", ".")
+                $regexPattern = "^" + $regexPattern + "$"
+                if ($_.FullName -match $regexPattern) {
                     $includeFile = $false
                     break
                 }

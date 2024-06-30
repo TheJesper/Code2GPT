@@ -1,5 +1,3 @@
-# 🛠 Utils.ps1: Utility functions used throughout the script.
-
 # 📏 GetIndentation: Returns indentation spaces based on the provided level.
 function GetIndentation($level) {
     if ([string]::IsNullOrEmpty($level)) {
@@ -13,9 +11,8 @@ function GetIndentation($level) {
     return $indentation
 }
 
-
-# 📚 ListItems: Recursively lists files and folders, filtering by allowedFiles and excludedFolders.
-function ListItems($path, $level, $output, $ExcludedFolders, $AllowedFiles, $WorkingFolderParameter) {
+# 📚 ListItems: Recursively lists files and folders, filtering by allowedFiles, excludedFolders, and gitignore patterns.
+function ListItems($path, $level, $output, $ExcludedFolders, $AllowedFiles, $WorkingFolderParameter, $GitIgnorePatterns) {
     # Get all items from the given path
     try {
         $items = Get-ChildItem -Path $path -ErrorAction Stop
@@ -31,11 +28,23 @@ function ListItems($path, $level, $output, $ExcludedFolders, $AllowedFiles, $Wor
     foreach ($item in $items) {
         $exclude = $false
 
-        # Check if the item is in the excluded folders list
+        # Check if the item is in the excluded folders list or matches a gitignore pattern
         foreach ($excludedFolder in $ExcludedFolders) {
             if ($item.FullName -match [regex]::Escape("\$excludedFolder\")) {
                 $exclude = $true
                 break
+            }
+        }
+
+        # Check against gitignore patterns
+        if (!$exclude) {
+            foreach ($pattern in $GitIgnorePatterns) {
+                $regexPattern = [regex]::Escape($pattern).Replace("\*", ".*").Replace("\?", ".")
+                $regexPattern = "^" + $regexPattern + "$"
+                if ($item.FullName -match $regexPattern) {
+                    $exclude = $true
+                    break
+                }
             }
         }
 
@@ -49,7 +58,7 @@ function ListItems($path, $level, $output, $ExcludedFolders, $AllowedFiles, $Wor
                 $row = "$(GetIndentation $level)📦$relativePath"
                 [void]$output.Add($row)
                 Write-Host "Added row: $row"
-                ListItems -path $item.FullName -level ($level + 1) -output $output -ExcludedFolders $ExcludedFolders -AllowedFiles $AllowedFiles -WorkingFolderParameter $WorkingFolderParameter
+                ListItems -path $item.FullName -level ($level + 1) -output $output -ExcludedFolders $ExcludedFolders -AllowedFiles $AllowedFiles -WorkingFolderParameter $WorkingFolderParameter -GitIgnorePatterns $GitIgnorePatterns
             }
             # If the item is a file, check if it's in the allowed files list and add it to the output
             elseif ($item -is [System.IO.FileInfo]) {
@@ -63,4 +72,15 @@ function ListItems($path, $level, $output, $ExcludedFolders, $AllowedFiles, $Wor
             }
         }
     }
+}
+
+# Get-GitIgnorePatterns: Reads .gitignore file and returns an array of patterns.
+function Get-GitIgnorePatterns($path) {
+    $gitignorePath = Join-Path -Path $path -ChildPath ".gitignore"
+    if (Test-Path -Path $gitignorePath) {
+        $patterns = Get-Content -Path $gitignorePath -ErrorAction SilentlyContinue |
+                    Where-Object { -not [string]::IsNullOrWhiteSpace($_) -and -not $_.StartsWith("#") }
+        return $patterns
+    }
+    return @()
 }

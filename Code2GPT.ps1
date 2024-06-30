@@ -34,6 +34,10 @@ $config = Get-Content -Path "config.json" -Raw | ConvertFrom-Json
 
 function ShowMenu($WorkingFolderParameter) {
     $showMenu = $true
+
+    # Läs in .gitignore-mönster
+    $gitIgnorePatterns = Get-GitIgnorePatterns -path $WorkingFolderParameter
+
     while ($showMenu) {
         Clear-Host
         Write-Host "──────────────────────────────────────"
@@ -55,7 +59,7 @@ function ShowMenu($WorkingFolderParameter) {
                 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
             }
             "2" {
-                $result = ListAndCopy -WorkingFolderParameter $WorkingFolderParameter -ExcludedFolders $config.excludedFolders -AllowedFiles $config.allowedFiles
+                $result = ListAndCopy -WorkingFolderParameter $WorkingFolderParameter -ExcludedFolders $config.excludedFolders -AllowedFiles $config.allowedFiles -GitIgnorePatterns $gitIgnorePatterns
                 Clear-Host
                 Write-Host "──────────────────────────────────────"
                 Write-Host "📂 Folder Structure:"
@@ -72,7 +76,7 @@ function ShowMenu($WorkingFolderParameter) {
                 Read-Host
             }
             "3" {
-                BrowseAndCopy -AllowedFiles $config.allowedFiles -ExcludedFolders $config.excludedFolders -WorkingFolderParameter $WorkingFolderParameter -ShowNumbers $false
+                BrowseAndCopy -AllowedFiles $config.allowedFiles -ExcludedFolders $config.excludedFolders -WorkingFolderParameter $WorkingFolderParameter -ShowNumbers $false -GitIgnorePatterns $gitIgnorePatterns
                 Write-Host "▶️Press any key to continue."
                 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
             }
@@ -86,8 +90,6 @@ function ShowMenu($WorkingFolderParameter) {
     }   
 }
 
-
-
 function DisplayChatGPTInstruction {
     $config = Get-Content -Path "config.json" -Raw | ConvertFrom-Json
     $instruction = $config.chatGPTInstruction
@@ -97,8 +99,6 @@ function DisplayChatGPTInstruction {
     Write-Host $instruction
     $instruction | Set-Clipboard
 }
-
-
 
 if (-not $WorkingFolder) {
     $WorkingFolder = Read-Host "Enter the source folder path"
