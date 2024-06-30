@@ -4,14 +4,15 @@ This PowerShell script helps users transfer their code project to ChatGPT by pro
 
 ## Features
 
-1. List and copy the folder structure to clipboard, respecting the allowed files and excluded folders defined in `config.json`.
+1. List and copy the folder structure to clipboard, respecting the allowed files and excluded folders defined in `config.json` and patterns specified in `.gitignore`.
 2. Browse and copy specific files with their relative paths and content to the clipboard.
 
 ## Usage
 
 1. Configure the `config.json` file to include the desired file types in `allowedFiles` and folders to exclude in `excludedFolders`.
-2. Run the appropriate script (`Code2GPT.ps1`, `BrowseAndCopy.ps1`, or `NavigateAndCopy.ps1`) and provide the path to the source folder when prompted.
-3. Follow the on-screen instructions to list the folder structure, browse, or copy specific files.
+2. Ensure you have a `.gitignore` file in your project directory if you want to exclude files/folders based on those patterns.
+3. Run the appropriate script (`Code2GPT.ps1`, `BrowseAndCopy.ps1`, or `NavigateAndCopy.ps1`) and provide the path to the source folder when prompted.
+4. Follow the on-screen instructions to list the folder structure, browse, or copy specific files.
 
 ## Exit
 
@@ -26,6 +27,10 @@ To install the required dependencies, follow these steps:
 1. Open PowerShell as Administrator.
 2. Run the following command to install Terminal.Gui:
 
+````powershell
+Install-Package -Name Terminal.Gui -Scope CurrentUser
+
+
 ## ToDo
 
 -- Include the behold text in the folder tree listing
@@ -34,4 +39,4 @@ To install the required dependencies, follow these steps:
 
 ```powershell
 Install-Package -Name Terminal.Gui -Scope CurrentUser
-```
+````
