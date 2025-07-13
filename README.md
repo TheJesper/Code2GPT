@@ -1,3 +1,5 @@
+Edit: No longer maintained - Checkout Clipster...
+
 # ChatGPT Repo Tools
 
 This PowerShell script helps users transfer their code project to ChatGPT by providing a tree structure view of their project files and allowing them to copy the content of specific files to the clipboard.
